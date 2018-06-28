@@ -7,42 +7,52 @@ let userGuesses = [];
 const letters = 'abcdefghijklmnopqrstuvwxyz'.split('');
 
 // UI Functions
-const winsElement = () => {
+winsElement = () => {
   document.getElementById('wins').innerHTML = wins;
 };
 
-const lossesElement = () => {
+lossesElement = () => {
   document.getElementById('losses').innerHTML = losses;
 };
 
-const guessLeftElement = () => {
-  document.getElementById('guessLeft').innerHTML = guessLeft;
+guessLeftElement = () => {
+  document.getElementById('guessesLeft').innerHTML = guessLeft;
 };
 
-const userGuessesElement = () => {
+userGuessesElement = () => {
   document.getElementById('userGuess').innerHTML = userGuesses;
 };
 
-gameChoice = () => {
-  randomChoice =
-    letters[Math.floor(Math.random() * Math.floor(letters.length))];
+compChoice = () => {
+  letters[Math.floor(Math.random() * Math.floor(letters.length))];
+};
+
+showError = error => {
+  alert(error);
 };
 
 reset = () => {
   guessLeft = 10;
   userGuesses = [];
-  gameChoice();
+  compChoice();
   winsElement();
   lossesElement();
+  guessLeftElement();
+  userGuessesElement();
 };
 
-document.onkeyup = e => {
+reset();
+document.onkeypress = e => {
   userChoice = e.key.toLowerCase();
-  console.log(userChoice);
-  guessLeft--;
-  if (gameChoice() === userChoice) {
-    wins++;
+  if (!letters.includes(userChoice)) {
+    showError(
+      'No special characters, you need to pick a letter from the alphabet.'
+    );
+  } else if (userGuesses.includes(userChoice)) {
+    showError('You cannot pick the same letter twice');
   } else {
-    losses++;
+    userGuesses.push(userChoice);
+    guessLeft--;
+    guessLeftElement();
   }
 };
