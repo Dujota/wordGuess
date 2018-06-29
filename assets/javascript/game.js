@@ -45,8 +45,6 @@ reset = () => {
 
 reset();
 document.onkeypress = e => {
-  console.log(randomLetter);
-
   userChoice = e.key.toLowerCase();
   if (!letters.includes(userChoice)) {
     showError(
