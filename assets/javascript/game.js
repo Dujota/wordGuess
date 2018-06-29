@@ -4,6 +4,7 @@ let wins = 0;
 let losses = 0;
 let guessLeft = 10;
 let userGuesses = [];
+let randomLetter;
 const letters = 'abcdefghijklmnopqrstuvwxyz'.split('');
 
 // UI Functions
@@ -24,7 +25,8 @@ userGuessesElement = () => {
 };
 
 compChoice = () => {
-  letters[Math.floor(Math.random() * Math.floor(letters.length))];
+  randomLetter =
+    letters[Math.floor(Math.random() * Math.floor(letters.length))];
 };
 
 showError = error => {
@@ -43,6 +45,8 @@ reset = () => {
 
 reset();
 document.onkeypress = e => {
+  console.log(randomLetter);
+
   userChoice = e.key.toLowerCase();
   if (!letters.includes(userChoice)) {
     showError(
@@ -54,5 +58,15 @@ document.onkeypress = e => {
     userGuesses.push(userChoice);
     guessLeft--;
     guessLeftElement();
+  }
+
+  if (randomLetter === userChoice) {
+    wins++;
+    alert('Way to go! You guessed right');
+    reset();
+  } else if (guessesLeft === 0) {
+    losses++;
+    alert('Sorry you ran out of guesses');
+    reset();
   }
 };
